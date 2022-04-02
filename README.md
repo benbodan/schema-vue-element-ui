@@ -1,6 +1,6 @@
 # schema-ui
 
-## PInstalling with npm
+## Installing with npm
 ```sh
 npm install --save  schema-vue-element-ui
 ```
