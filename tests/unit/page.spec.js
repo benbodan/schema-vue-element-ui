@@ -10,8 +10,8 @@ import RowSchema from '@/Schema/Row';
 describe('Page Component', () => {
   const props = {
     body: [
-      (new RowSchema()).json(),
-      (new RowSchema()).json()
+      new RowSchema(),
+      new RowSchema()
     ]
   }
 
@@ -24,7 +24,7 @@ describe('Page Component', () => {
   it('it renders rows', () => {
     // Has 2 Children in body
     expect(wrapper.findAllComponents(Row).length).toBe(2)
-    
+
     // Contains .el-row class
     expect(wrapper.find('.el-row').text())
   })

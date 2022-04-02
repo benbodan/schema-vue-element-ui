@@ -30,12 +30,12 @@ describe('Column Component', () => {
     it('Can be rendered in a page component', () => {
         let props = {
             body: [
-                (new RowSchema({
+                new RowSchema({
                     columns: [
-                        (new ColumnSchema()).json(),
-                        (new ColumnSchema()).json()
+                        new ColumnSchema(),
+                        new ColumnSchema()
                     ]
-                })).json()
+                })
             ]
         }
 

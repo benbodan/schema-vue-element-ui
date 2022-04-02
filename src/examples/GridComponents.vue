@@ -5,8 +5,10 @@
 </template>
 
 <script>
-import Row from "@/Schema/Row"
-import Column from "@/Schema/Column"
+import Row from '@/Schema/Row'
+import Column from '@/Schema/Column'
+import Card from '@/Schema/Card'
+
 export default {
   data() {
     return {
@@ -16,12 +18,24 @@ export default {
   beforeMount() {
     this.props = {
        body: [
-           (new Row({
+           new Row({
+               gutter: 10,
                columns: [
-                   (new Column()).json()
+                   new Column({
+                       md: 12,
+                       children: [
+                            new Card()
+                       ]
+                   }),
+                    new Column({
+                       md: 12,
+                       children: [
+                            new Card()
+                       ]
+                   }),
                ]
-           })).json(),
-           (new Row()).json(),
+           }),
+           new Row(),
        ]
     };
   },

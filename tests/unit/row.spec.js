@@ -8,8 +8,8 @@ import ColumnSchema from '@/Schema/Column'
 describe('it renders columns', () => {
     const props = {
         columns: [
-            (new ColumnSchema()).json(),
-            (new ColumnSchema()).json(),
+            new ColumnSchema(),
+            new ColumnSchema(),
         ]
     }
 

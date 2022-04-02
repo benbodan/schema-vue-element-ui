@@ -12,6 +12,7 @@ class Row extends Component {
     }) {
         super()
         super.setup(props)
+        return this.json()
     }
 
     json() {

@@ -17,6 +17,7 @@ class Column extends Component {
     }) {
         super()
         super.setup(props)
+        return this.json()
     }
 
     json() {
