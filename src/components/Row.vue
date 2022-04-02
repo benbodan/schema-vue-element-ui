@@ -1,19 +1,24 @@
 <template>
-  <div>
+  <el-row
+    :gutter="props.gutter"
+    :type="props.type"
+    :justify="props.justify"
+    :align="props.align"
+  >
     <component
       :is="component.type"
-      v-for="(component, index) in props.body"
+      v-for="(component, index) in props.columns"
       :properties="component.props"
       :key="index"
     />
-  </div>
+  </el-row>
 </template>
 
 <script>
 import HasProperties from "@/mixins/HasProperties";
 
 export default {
-  name: "vPage",
+  name: "vRow",
   mixins: [HasProperties],
   props: {
     properties: {
@@ -26,8 +31,11 @@ export default {
   data() {
     return {
       props: {
-        title: "",
-        body: [],
+        gutter: 0,
+        type: "",
+        justify: "start",
+        align: "",
+        columns: [],
       },
     };
   },

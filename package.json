@@ -8,7 +8,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --target lib --name schema-vue-element-ui ./src/install.js",
-    "test:unit": "vue-cli-service test:unit",
+    "test": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
   },
   "main": "./dist/schema-vue-element-ui.common.js",
@@ -17,6 +17,7 @@
   ],
   "dependencies": {
     "core-js": "^3.8.3",
+    "element-ui": "^2.15.6",
     "vue": "^2.6.14"
   },
   "devDependencies": {

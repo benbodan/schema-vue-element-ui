@@ -1,18 +1,33 @@
 import { mount, shallowMount } from '@vue/test-utils'
 import Page from '@/components/Page.vue'
+import Row from '@/components/Row.vue'
 
-describe('Page.vue', () => {
-  it('renders page title when passed', () => {
-    const props = {
-      title: 'Page Title',
+import install from '../install';
+
+import RowSchema from '@/Schema/Row';
+
+
+describe('Page Component', () => {
+  const props = {
+    body: [
+      (new RowSchema()).json(),
+      (new RowSchema()).json()
+    ]
+  }
+
+  const wrapper = mount(Page, {
+    propsData: {
+      properties: props
     }
-
-    const wrapper = shallowMount(Page, {
-      propsData: {
-        properties: props
-      }
-    })
-
-    expect(wrapper.text()).toContain(props.title)
   })
+
+  it('it renders rows', () => {
+    // Has 2 Children in body
+    expect(wrapper.findAllComponents(Row).length).toBe(2)
+    
+    // Contains .el-row class
+    expect(wrapper.find('.el-row').text())
+  })
+
+
 })
