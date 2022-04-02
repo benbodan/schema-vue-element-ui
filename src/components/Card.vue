@@ -1,6 +1,6 @@
 <template>
   <el-card :shadow="props.shadow">
-    <div slot="header" v-if="props.header.length">
+    <div slot="header" v-if="props.header && props.header.length">
       <component
         :is="component.type"
         v-for="(component, index) in props.header"
