@@ -5,6 +5,7 @@ import Component from "./Component";
 class Row extends Component {
     constructor(props = {
         type: 'text',
+        name: '',
         label: '',
         placeholder: '',
         clearable: false,
@@ -27,6 +28,7 @@ class Row extends Component {
             type: 'vInput',
             props: {
                 label: this.label,
+                name: this.name,
                 type: this.type,
                 placeholder: this.placeholder,
                 clearable: this.clearable,

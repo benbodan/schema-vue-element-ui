@@ -1,4 +1,3 @@
-
 class Component {
     setup(props = {}) {
         Object.keys(props).forEach(key => {

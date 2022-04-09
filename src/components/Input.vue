@@ -22,10 +22,11 @@
 
 <script>
 import HasProperties from "@/mixins/HasProperties";
+import HasState from "@/mixins/HasState";
 
 export default {
   name: "vInput",
-  mixins: [HasProperties],
+  mixins: [HasProperties, HasState],
   props: {
     properties: {
       type: Object,
@@ -36,9 +37,10 @@ export default {
   },
   data() {
     return {
-      value: '',
       props: {
         label: '',
+        name: '',
+        default: '',
         type: 'text',
         placeholder: '',
         clearable: false,

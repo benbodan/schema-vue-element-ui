@@ -2,11 +2,63 @@ import { mount, shallowMount } from '@vue/test-utils'
 import install from '../install';
 
 import Input from '@/components/Input'
-import Card from '@/components/Card'
-import Row from '@/components/Row'
-import RowSchema from '@/Schema/Row'
+import stateMock from '../Mocks/StateMock'
+
 
 describe('Input Components', () => {
+
+    it('it displays the initial value stored in the state',() => {
+
+        const $schemaStore = stateMock({
+            user: {
+                email: 'user@email.com'
+            }
+        })
+
+        const props = {
+            name: 'user.email'
+        }
+
+        const wrapper = mount(Input, {
+            mocks: {
+                $schemaStore
+            },
+            propsData: {
+                properties: props
+            }
+        })
+
+        let input = wrapper.find('input[type="text"]');
+        expect(input.element.value).toBe('user@email.com')
+    })
+
+    it('it displays the latest stored value when the state updates', async () => {
+
+        const $schemaStore = stateMock({
+            user: {
+                email: 'user@email.com'
+            }
+        })
+
+        const props = {
+            name: 'user.email'
+        }
+
+        const wrapper = mount(Input, {
+            mocks: {
+                $schemaStore
+            },
+            propsData: {
+                properties: props
+            }
+        })
+
+        wrapper.vm.$schemaStore.set('user.email', 'user@example.com')
+        await wrapper.vm.$nextTick()
+
+        let input = wrapper.find('input[type="text"]');
+        expect(input.element.value).toBe('user@example.com')
+    })
 
     it('it renders input text', () => {
 
@@ -26,7 +78,7 @@ describe('Input Components', () => {
             rows: 10,
             type: 'textarea'
         }
-        
+
         const wrapper = mount(Input, {
             propsData: {
                 properties: props
@@ -43,14 +95,14 @@ describe('Input Components', () => {
         const props = {
             label: 'My Label'
         }
-        
+
         const wrapper = mount(Input, {
             propsData: {
                 properties: props
             }
         })
         let component = wrapper.find('input');
-        
+
         expect(component.exists()).toBe(true);
         expect(wrapper.find('label').text()).toContain(props.label)
     })
@@ -60,7 +112,7 @@ describe('Input Components', () => {
         const props = {
             prefixIcon: 'el-icon-date'
         }
-        
+
         const wrapper = mount(Input, {
             propsData: {
                 properties: props
@@ -74,7 +126,7 @@ describe('Input Components', () => {
         const props = {
             suffixIcon: 'el-icon-date'
         }
-        
+
         const wrapper = mount(Input, {
             propsData: {
                 properties: props
@@ -88,7 +140,7 @@ describe('Input Components', () => {
         const props = {
             placeholder: 'Placeholder Test'
         }
-        
+
         const wrapper = mount(Input, {
             propsData: {
                 properties: props
@@ -102,7 +154,7 @@ describe('Input Components', () => {
         const props = {
             clearable: true
         }
-        
+
         const wrapper = mount(Input, {
             propsData: {
                 properties: props

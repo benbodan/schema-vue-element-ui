@@ -25,14 +25,26 @@ export default {
               md: 12,
               children: [
                 new Card({
-                  children: [new Input({
-                      label: 'Label',
+                  children: [
+                    new Input({
+                      label: "User Email",
+                      name: "user.email",
                       clearable: true,
-                      placeholder: 'Placeholder',
-                      prefixIcon: 'el-icon-date',
-                      maxlength:10,
-                      showWordLimit: true
-                  })],
+                      placeholder: "Placeholder",
+                      prefixIcon: "el-icon-date",
+                      maxlength: 20,
+                      showWordLimit: true,
+                    }),
+                    new Input({
+                      label: "User Name",
+                      name: "user.name",
+                      clearable: true,
+                      placeholder: "Placeholder",
+                      prefixIcon: "el-icon-date",
+                      maxlength: 20,
+                      showWordLimit: true,
+                    }),
+                  ],
                 }),
               ],
             }),
@@ -46,6 +58,7 @@ export default {
       ],
     };
   },
+  mounted() {},
   methods: {},
 };
 </script>
