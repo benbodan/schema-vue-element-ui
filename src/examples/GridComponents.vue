@@ -12,6 +12,7 @@ import Input from "@/Schema/Input"
 import Builder from "@/Schema/Builder"
 import Button from "@/Schema/Button"
 import Event from "@/Schema/Event"
+import TextSchema from '@/Schema/Text'
 
 export default {
   data() {
@@ -80,7 +81,13 @@ export default {
                       children: [
                         new Column({
                           md: 12,
-                          children: [new Card()],
+                          children: [new Card({
+                            children: [
+                              new TextSchema({
+                                value: 'Account : {user}'
+                              })
+                            ]
+                          })],
                         }),
                       ],
                     }),

@@ -14,6 +14,7 @@
       :is="component.type"
       v-for="(component, index) in props.children"
       :properties="component.props"
+      :scope="scope"
       :key="index"
     />
   </el-col>
@@ -27,6 +28,12 @@ export default {
   mixins: [HasProperties],
   props: {
     properties: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
+    scope: {
       type: Object,
       default() {
         return {};

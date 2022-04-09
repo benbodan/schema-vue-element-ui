@@ -3,7 +3,11 @@ import install from '../install'
 
 import Builder from '@/components/Builder'
 import Card from '@/components/Card'
+import Text from '@/components/Text'
+
 import CardSchema from '@/Schema/Card'
+import TextSchema from '@/Schema/Text'
+
 import stateMock from '../Mocks/StateMock'
 import { wrap } from 'lodash'
 
@@ -12,7 +16,11 @@ describe('Builder Component', () => {
         const props = {
             name: 'users',
             children: [
-                new CardSchema()
+                new CardSchema({
+                    children: [
+                        new TextSchema({value: '{name}'})
+                    ]
+                })
             ],
             data: [
                 {
@@ -24,13 +32,14 @@ describe('Builder Component', () => {
             ],
         }
 
-        const wrappper = mount(Builder, {
+        const wrapper = mount(Builder, {
             propsData: {
                 properties: props
             }
         })
 
-        expect(wrappper.findAllComponents(Card).length).toBe(2)
+        expect(wrapper.findAllComponents(Text).length).toBe(2)
+        expect(wrapper.findComponent(Text).text()).toBe('User 1')
     })
 
 
@@ -52,7 +61,7 @@ describe('Builder Component', () => {
 
         const $schemaStore = new stateMock();
 
-        const wrappper = mount(Builder, {
+        const wrapper = mount(Builder, {
             mocks: {
                 $schemaStore
             },
@@ -61,9 +70,8 @@ describe('Builder Component', () => {
             }
         })
 
-        const data = wrappper.vm.$schemaStore.get(`${props.name}.items`);
+        const data = wrapper.vm.$schemaStore.get(`${props.name}.items`);
         expect(data).toBe(props.data);
-
     })
 
 })

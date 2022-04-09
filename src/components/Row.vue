@@ -27,6 +27,12 @@ export default {
         return {};
       },
     },
+    scope: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
   },
   data() {
     return {

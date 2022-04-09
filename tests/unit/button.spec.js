@@ -7,7 +7,7 @@ import EventSchema from '@/Schema/Event'
 
 import { wrap } from 'lodash'
 
-describe('Builder Component',() => {
+describe('Button Component',() => {
     
     it('it dispatch events on click', async () => {
         const props = {

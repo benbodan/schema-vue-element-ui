@@ -1,14 +1,13 @@
 <template>
-  <el-button @click="onClick">{{ props.label }}</el-button>
+  <div>{{ props.value }}</div>
 </template>
 
 <script>
 import HasProperties from "@/mixins/HasProperties";
-import publishEvents from "@/mixins/publishEvents";
 
 export default {
-  name: "vButton",
-  mixins: [HasProperties, publishEvents],
+  name: "vText",
+  mixins: [HasProperties],
   props: {
     properties: {
       type: Object,
@@ -26,20 +25,12 @@ export default {
   data() {
     return {
       props: {
-        label: "label",
-        on_click: [],
+        value: "",
       },
     };
   },
   beforeMount() {
     this.applyProperties(this.properties);
-  },
-  methods: {
-    onClick() {
-      this.props.on_click.forEach((event) => {
-        this.publishEvent(event.topic, event.payload);
-      });
-    },
-  },
+  }
 };
 </script>

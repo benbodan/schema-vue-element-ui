@@ -5,6 +5,7 @@
         :is="component.type"
         v-for="(component, index) in props.header"
         :properties="component.props"
+        :scope="scope"
         :key="index"
       />
     </div>
@@ -12,6 +13,7 @@
       :is="component.type"
       v-for="(component, index) in props.children"
       :properties="component.props"
+      :scope="scope"
       :key="index"
     />
   </el-card>
@@ -25,6 +27,12 @@ export default {
   mixins: [HasProperties],
   props: {
     properties: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
+    scope: {
       type: Object,
       default() {
         return {};

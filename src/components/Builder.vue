@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="(item,index) in props.data" :key="index">
+    <div v-for="(item, index) in props.data" :key="index">
       <component
         :is="component.type"
         v-for="(component, index) in props.children"
@@ -26,13 +26,19 @@ export default {
         return {};
       },
     },
+    scope: {
+      type: Object,
+      default() {
+        return {};
+      },
+    },
   },
   data() {
     return {
       props: {
         name: "",
         children: [],
-        data: []
+        data: [],
       },
     };
   },
@@ -40,8 +46,8 @@ export default {
     this.applyProperties(this.properties);
 
     // Builder State Items
-    if(this.props.data.length > 0) {
-      this.setComponentState('items', this.props.data)
+    if (this.props.data.length > 0) {
+      this.setComponentState("items", this.props.data);
     }
   },
 };
