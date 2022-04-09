@@ -1,16 +1,24 @@
 export default {
-    data (){
+    data() {
         return {
             key: 0
         }
     },
+    methods: {
+        setComponentState(key, value) {
+            this.$schemaStore.set(`${this.props.name}.${key}`, value)
+        },
+        getComponentState(key) {
+            this.$schemaStore.get(`${this.props.name}.${key}`, this.props.default)
+        },
+    },
     computed: {
         value: {
-            set(value){
+            set(value) {
                 this.$schemaStore.set(this.props.name, value)
                 this.key++
             },
-            get(){
+            get() {
                 this.key++
                 let value = this.$schemaStore.get(this.props.name, this.props.default)
                 return value

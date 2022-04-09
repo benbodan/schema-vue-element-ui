@@ -9,10 +9,20 @@ import Row from "@/Schema/Row";
 import Column from "@/Schema/Column";
 import Card from "@/Schema/Card";
 import Input from "@/Schema/Input";
+import Builder from "@/Schema/Builder";
+
 export default {
   data() {
     return {
       props: {},
+      data: [
+        {
+          user: "User 1",
+        },
+        {
+          user: "User 2",
+        },
+      ],
     };
   },
   beforeMount() {
@@ -50,7 +60,23 @@ export default {
             }),
             new Column({
               md: 12,
-              children: [new Card()],
+              children: [
+                new Row({
+                  gutter: 10,
+                  columns: [
+                    new Builder({
+                      name: "users",
+                      data: this.data,
+                      children: [
+                        new Column({
+                          md: 12,
+                          children: [new Card()],
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+              ],
             }),
           ],
         }),

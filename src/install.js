@@ -1,11 +1,14 @@
+import store from "@/store"
+import State from "@/Providers/State"
 
+// Components
 import page from '@/components/Page'
 import row from '@/components/Row'
 import column from '@/components/Column'
 import card from '@/components/Card'
 import input from '@/components/Input'
-import store from "@/store"
-import State from "@/Providers/State"
+import builder from '@/components/Builder'
+
 const components = {
     install(Vue, options) {
 
@@ -20,6 +23,7 @@ const components = {
         Vue.component(column.name, column)
         Vue.component(card.name, card)
         Vue.component(input.name, input);
+        Vue.component(builder.name, builder);
     }
 }
 
