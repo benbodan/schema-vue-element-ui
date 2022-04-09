@@ -5,11 +5,13 @@
 </template>
 
 <script>
-import Row from "@/Schema/Row";
-import Column from "@/Schema/Column";
-import Card from "@/Schema/Card";
-import Input from "@/Schema/Input";
-import Builder from "@/Schema/Builder";
+import Row from "@/Schema/Row"
+import Column from "@/Schema/Column"
+import Card from "@/Schema/Card"
+import Input from "@/Schema/Input"
+import Builder from "@/Schema/Builder"
+import Button from "@/Schema/Button"
+import Event from "@/Schema/Event"
 
 export default {
   data() {
@@ -35,6 +37,14 @@ export default {
               md: 12,
               children: [
                 new Card({
+                  header: [
+                    new Button({
+                      label: 'Add',
+                      on_click: [
+                        new Event('topic', 'action')
+                      ]
+                    })
+                  ],
                   children: [
                     new Input({
                       label: "User Email",
@@ -59,7 +69,7 @@ export default {
               ],
             }),
             new Column({
-              md: 12,
+              md: 12, 
               children: [
                 new Row({
                   gutter: 10,
