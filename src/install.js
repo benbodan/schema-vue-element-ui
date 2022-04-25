@@ -11,6 +11,7 @@ import input from '@/components/Input'
 import builder from '@/components/Builder'
 import button from '@/components/Button'
 import text from '@/components/Text'
+import form from '@/components/Form'
 
 const components = {
     install(Vue, options) {
@@ -30,6 +31,7 @@ const components = {
         Vue.component(builder.name, builder)
         Vue.component(button.name, button)
         Vue.component(text.name, text)
+        Vue.component(form.name, form)
     }
 }
 

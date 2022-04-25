@@ -60,7 +60,7 @@ export default {
         showWordLimit: false,
         rows: 2,
         autosize: false,
-        on_enter: []
+        on_change: []
       },
     };
   },
@@ -69,6 +69,9 @@ export default {
   },
   methods: {
     onChange() {
+      if(!this.props.on_change){
+        return
+      }
       this.props.on_change.forEach((event) => {
         this.publishEvent(event.topic, event.payload);
       });

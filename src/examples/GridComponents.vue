@@ -13,6 +13,8 @@ import Builder from "@/Schema/Builder";
 import Button from "@/Schema/Button";
 import Event from "@/Schema/Event";
 import TextSchema from "@/Schema/Text";
+import Form from "@/Schema/Form";
+
 import RestRepository from "@/Schema/Repositories/RestRepository";
 
 export default {
@@ -42,27 +44,53 @@ export default {
                   header: [
                     new Button({
                       label: "Refersh",
-                      on_click: [new Event("users.get", "")],
+                      on_click: [new Event("user_form.show", "")],
+                    }),
+                    new Button({
+                      label: "Update",
+                      on_click: [new Event("user_form.put")],
+                    }),
+                    new Button({
+                      label: "Create",
+                      on_click: [new Event("user_form.post")],
+                    }),
+                    new Button({
+                      label: "Delete",
+                      on_click: [new Event("user_form.delete")],
                     }),
                   ],
                   children: [
-                    new Input({
-                      label: "User Email",
-                      name: "user.email",
-                      clearable: true,
-                      placeholder: "Placeholder",
-                      prefixIcon: "el-icon-date",
-                      maxlength: 20,
-                      showWordLimit: true,
-                    }),
-                    new Input({
-                      label: "User Name",
-                      name: "user.name",
-                      clearable: true,
-                      placeholder: "Placeholder",
-                      prefixIcon: "el-icon-date",
-                      maxlength: 20,
-                      showWordLimit: true,
+                    new Form({
+                      name: "user_form",
+                      repository: new RestRepository({
+                        show: "https://62514445e3e5d24b342b12d1.mockapi.io/api/v1/users/1",
+                        update:
+                          "https://62514445e3e5d24b342b12d1.mockapi.io/api/v1/users/1",
+                        create:
+                          "https://62514445e3e5d24b342b12d1.mockapi.io/api/v1/users/",
+                        delete:
+                          "https://62514445e3e5d24b342b12d1.mockapi.io/api/v1/users/1",
+                      }),
+                      children: [
+                        new Input({
+                          label: "User Email",
+                          name: "user_form.body.email",
+                          clearable: true,
+                          placeholder: "Placeholder",
+                          prefixIcon: "el-icon-date",
+                          maxlength: 50,
+                          showWordLimit: true,
+                        }),
+                        new Input({
+                          label: "User Name",
+                          name: "user_form.body.name",
+                          clearable: true,
+                          placeholder: "Placeholder",
+                          prefixIcon: "el-icon-date",
+                          maxlength: 50,
+                          showWordLimit: true,
+                        }),
+                      ],
                     }),
                   ],
                 }),
