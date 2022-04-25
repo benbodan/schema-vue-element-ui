@@ -4,6 +4,7 @@ import Component from "./Component";
 class Builder extends Component {
     constructor(props = {
         name: '',
+        repository: {},
         data: [],
         children: [],
     }) {
@@ -18,6 +19,7 @@ class Builder extends Component {
             props: {
                 name: this.name,
                 data: this.data,
+                repository: this.repository,
                 children: this.children,
             }
         }

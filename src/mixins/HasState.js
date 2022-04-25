@@ -9,7 +9,7 @@ export default {
             this.$schemaStore.set(`${this.props.name}.${key}`, value)
         },
         getComponentState(key) {
-            this.$schemaStore.get(`${this.props.name}.${key}`, this.props.default)
+            return this.$schemaStore.get(`${this.props.name}.${key}`, this.props.default)
         },
     },
     computed: {

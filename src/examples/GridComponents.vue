@@ -5,14 +5,15 @@
 </template>
 
 <script>
-import Row from "@/Schema/Row"
-import Column from "@/Schema/Column"
-import Card from "@/Schema/Card"
-import Input from "@/Schema/Input"
-import Builder from "@/Schema/Builder"
-import Button from "@/Schema/Button"
-import Event from "@/Schema/Event"
-import TextSchema from '@/Schema/Text'
+import Row from "@/Schema/Row";
+import Column from "@/Schema/Column";
+import Card from "@/Schema/Card";
+import Input from "@/Schema/Input";
+import Builder from "@/Schema/Builder";
+import Button from "@/Schema/Button";
+import Event from "@/Schema/Event";
+import TextSchema from "@/Schema/Text";
+import RestRepository from "@/Schema/Repositories/RestRepository";
 
 export default {
   data() {
@@ -40,11 +41,9 @@ export default {
                 new Card({
                   header: [
                     new Button({
-                      label: 'Add',
-                      on_click: [
-                        new Event('topic', 'action')
-                      ]
-                    })
+                      label: "Add",
+                      on_click: [new Event("topic", "action")],
+                    }),
                   ],
                   children: [
                     new Input({
@@ -70,7 +69,7 @@ export default {
               ],
             }),
             new Column({
-              md: 12, 
+              md: 12,
               children: [
                 new Row({
                   gutter: 10,
@@ -78,16 +77,21 @@ export default {
                     new Builder({
                       name: "users",
                       data: this.data,
+                      repository: new RestRepository({
+                        get: "https://62514445e3e5d24b342b12d1.mockapi.io/api/v1/users",
+                      }),
                       children: [
                         new Column({
                           md: 12,
-                          children: [new Card({
-                            children: [
-                              new TextSchema({
-                                value: 'Account : {user}'
-                              })
-                            ]
-                          })],
+                          children: [
+                            new Card({
+                              children: [
+                                new TextSchema({
+                                  value: "Name: {name}",
+                                }),
+                              ],
+                            }),
+                          ],
                         }),
                       ],
                     }),
