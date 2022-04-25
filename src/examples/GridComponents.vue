@@ -41,8 +41,8 @@ export default {
                 new Card({
                   header: [
                     new Button({
-                      label: "Add",
-                      on_click: [new Event("topic", "action")],
+                      label: "Refersh",
+                      on_click: [new Event("users.get", "")],
                     }),
                   ],
                   children: [
@@ -74,6 +74,18 @@ export default {
                 new Row({
                   gutter: 10,
                   columns: [
+                    new Column({
+                      children: [
+                        new Input({
+                          label: "Name",
+                          name: "users.query.name",
+                          clearable: true,
+                          placeholder: "Search",
+                          prefixIcon: "el-icon-search",
+                          on_change: [new Event("users.get", "")],
+                        }),
+                      ],
+                    }),
                     new Builder({
                       name: "users",
                       data: this.data,

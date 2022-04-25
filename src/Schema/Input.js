@@ -17,6 +17,7 @@ class Row extends Component {
         showWordLimit: false,
         rows: 2,
         autosize: false,
+        on_change: []
     }) {
         super()
         super.setup(props)
@@ -39,7 +40,8 @@ class Row extends Component {
                 showPassword: this.showPassword,
                 showWordLimit: this.showWordLimit,
                 rows: this.rows,
-                autosize: this.autosize
+                autosize: this.autosize,
+                on_change: this.on_change
             }
         }
     }

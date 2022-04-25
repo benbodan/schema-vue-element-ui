@@ -17,7 +17,43 @@ import RestRepository from '@/Schema/Repositories/RestRepository'
 
 describe('Builder Component', () => {
 
-    it('it feteh items using rest and query parameters', async () => {
+    it('it listen to events and fetch items', async () => {
+        const props = {
+            name: 'users',
+            repository: new RestRepository({
+                get: 'https://example.com/users'
+            }),
+            children: []
+        }
+
+        const response = { data: [] }
+        jest.spyOn(axios, 'get').mockResolvedValue(response)
+
+        const $schemaStore = new stateMock()
+
+        const wrapper = mount(Builder, {
+            mocks: {
+                $schemaStore
+            },
+            propsData: {
+                properties: props
+            }
+        })
+
+        expect(axios.get).toHaveBeenCalledWith('https://example.com/users')
+        expect(axios.get).toBeCalledTimes(1)
+
+        wrapper.vm.$schemaStore.set('users.query.name', 'Mr.');
+        await wrapper.vm.$nextTick()
+
+        // Call Get Method when new event have been published
+        wrapper.vm.$schemaEvents.$emit('users.get', {})
+        expect(axios.get).toHaveBeenCalledWith('https://example.com/users?name=Mr.')
+        
+        expect(axios.get).toBeCalledTimes(2)
+    })
+
+    it('it fetch items using rest and query parameters', async () => {
         const props = {
             name: 'users',
             repository: new RestRepository({

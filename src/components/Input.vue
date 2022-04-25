@@ -4,6 +4,7 @@
       {{ props.label }}
     </label>
     <el-input
+      @change="onChange"
       :clearable="props.clearable"
       v-model="value"
       :label="props.label"
@@ -23,10 +24,11 @@
 <script>
 import HasProperties from "@/mixins/HasProperties";
 import HasState from "@/mixins/HasState";
+import publishEvents from "@/mixins/publishEvents";
 
 export default {
   name: "vInput",
-  mixins: [HasProperties, HasState],
+  mixins: [HasProperties, HasState, publishEvents],
   props: {
     properties: {
       type: Object,
@@ -58,11 +60,19 @@ export default {
         showWordLimit: false,
         rows: 2,
         autosize: false,
+        on_enter: []
       },
     };
   },
   beforeMount() {
     this.applyProperties(this.properties);
+  },
+  methods: {
+    onChange() {
+      this.props.on_change.forEach((event) => {
+        this.publishEvent(event.topic, event.payload);
+      });
+    },
   },
 };
 </script>

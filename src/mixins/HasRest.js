@@ -3,16 +3,17 @@ export default {
     data() {
         return {
             loading: false,
-            response: {},
         }
     },
     methods: {
-        initRest(repo) {
-            if (repo.props) {
-                this.get(repo.props);
+        get() {
+            let repo = this.props.repository.props
+
+            // Repository missing
+            if(!repo) {
+                return;
             }
-        },
-        get(repo) {
+
             this.loading = true
             let url = repo.get
             url += this.generateParams(this.queryParams())

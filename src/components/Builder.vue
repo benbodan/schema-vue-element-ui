@@ -16,10 +16,11 @@
 import HasProperties from "@/mixins/HasProperties";
 import HasState from "@/mixins/HasState";
 import HasRest from "@/mixins/HasRest";
+import ListenEvents from "@/mixins/ListenEvents";
 
 export default {
   name: "vBuilder",
-  mixins: [HasProperties, HasState, HasRest],
+  mixins: [HasProperties, HasState, HasRest, ListenEvents],
   props: {
     properties: {
       type: Object,
@@ -53,16 +54,23 @@ export default {
       this.setComponentState("items", this.props.data);
     }
 
-    // Init Repository & Fetch Items
-    this.initRest(this.props.repository);
+    //Fetch Items Using Rest Repository
+    this.get();
+
+    // Listen For Events
+    this.listenOn(`${this.props.name}.get`, this.get);
+  },
+  beforeDestroy(){
+    // Stop Listening For Events
+    this.stopListenOn(`${this.props.name}.get`)
   },
   methods: {
     // Returns The Query Parameters Used In Get Request
-    queryParams(){
+    queryParams() {
       return this.getComponentState("query");
     },
     // Runs After Axios Get Request Succeeds
-    afterGet(response) {  
+    afterGet(response) {
       this.props.data = response.data;
       this.setComponentState("items", this.props.data);
     },

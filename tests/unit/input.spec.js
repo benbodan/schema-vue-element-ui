@@ -3,9 +3,35 @@ import install from '../install';
 
 import Input from '@/components/Input'
 import stateMock from '../Mocks/StateMock'
-
+import EventSchema from '@/Schema/Event'
 
 describe('Input Components', () => {
+
+    it('it publishes events when input changes', async () => {
+        // Mount Input Component
+        const props =  {
+            name: 'name',
+            on_change: [
+                new EventSchema('topic', 'value'),
+            ]
+        }
+
+        const wrapper = mount(Input, {
+            propsData: {
+                properties: props
+            }
+        })
+        
+        // Trigger enter on input element
+        const input = wrapper.find('input[type="text"]')
+        input.value = 'Mr.'
+        input.trigger('change');
+
+        await wrapper.vm.$nextTick();
+
+        expect(wrapper.emitted().topic).toBeTruthy()
+        expect(wrapper.emitted().topic.toString()).toBe('value')
+    })
 
     it('it displays the initial value stored in the state',() => {
 
