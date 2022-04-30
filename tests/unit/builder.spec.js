@@ -12,7 +12,6 @@ import CardSchema from '@/Schema/Card'
 import TextSchema from '@/Schema/Text'
 
 import stateMock from '../Mocks/StateMock'
-import { wrap } from 'lodash'
 import RestRepository from '@/Schema/Repositories/RestRepository'
 
 describe('Builder Component', () => {

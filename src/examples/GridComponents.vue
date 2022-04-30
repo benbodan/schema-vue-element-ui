@@ -116,7 +116,7 @@ export default {
                     }),
                     new Builder({
                       name: "users",
-                      data: this.data,
+                      data: [],
                       repository: new RestRepository({
                         get: "https://62514445e3e5d24b342b12d1.mockapi.io/api/v1/users",
                       }),

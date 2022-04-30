@@ -1,8 +1,8 @@
 /* eslint-disable */
 
-import Component from "../Component";
+import Repository from "./Repository";
 
-class RestRepository extends Component {
+class RestRepository extends Repository {
 
     constructor(props = {
         get: '',

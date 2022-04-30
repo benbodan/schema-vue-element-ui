@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!loading">
+  <div v-if="!loading" :key="render">
     <div v-for="(item, j) in props.data" :key="j">
       <component
         :is="component.type"
@@ -17,7 +17,7 @@ import HasProperties from "@/mixins/HasProperties";
 import HasState from "@/mixins/HasState";
 import HasRest from "@/mixins/HasRest";
 import ListenEvents from "@/mixins/ListenEvents";
-
+import Repository from "@/repositories/Repository";
 export default {
   name: "vBuilder",
   mixins: [HasProperties, HasState, HasRest, ListenEvents],
@@ -38,6 +38,8 @@ export default {
   data() {
     return {
       items: [],
+      render: 1,
+      repository: null,
       props: {
         repository: {},
         name: "",
@@ -54,8 +56,8 @@ export default {
       this.setComponentState("items", this.props.data);
     }
 
-    //Fetch Items Using Rest Repository
-    this.get();
+    // Init Repository & Fetch Items
+    this.initRepository()
 
     // Listen For Events
     this.listenOn(`${this.props.name}.get`, this.get);
@@ -71,9 +73,19 @@ export default {
     },
     // Runs After Axios Get Request Succeeds
     afterGet(response) {
-      this.props.data = response.data;
+      this.props.data = response;
       this.setComponentState("items", this.props.data);
+      this.render++
     },
+    get(){
+      this.repository.get(this.queryParams());
+    },
+    // Initialize Rest|State Repository & Fetch Items
+    initRepository(){
+      this.repository = new Repository(this.props.repository, this.$schemaStore)
+      this.repository.afterGet(this.afterGet);
+      this.repository.get(this.queryParams());
+    }
   },
 };
 </script>
