@@ -13,6 +13,7 @@ import TextSchema from '@/Schema/Text'
 
 import stateMock from '../Mocks/StateMock'
 import RestRepository from '@/Schema/Repositories/RestRepository'
+import JsonRepository from '@/Schema/Repositories/JsonRepository'
 
 describe('Builder Component', () => {
 
@@ -48,7 +49,7 @@ describe('Builder Component', () => {
         // Call Get Method when new event have been published
         wrapper.vm.$schemaEvents.$emit('users.get', {})
         expect(axios.get).toHaveBeenCalledWith('https://example.com/users?name=Mr.')
-        
+
         expect(axios.get).toBeCalledTimes(2)
     })
 
@@ -141,67 +142,4 @@ describe('Builder Component', () => {
         const data = wrapper.vm.$schemaStore.get(`${props.name}.items`);
         expect(data).toBe(response.data);
     })
-
-    it('it renders children components for each item in data array', () => {
-        const props = {
-            name: 'users',
-            children: [
-                new CardSchema({
-                    children: [
-                        new TextSchema({ value: '{name}' })
-                    ]
-                })
-            ],
-            data: [
-                {
-                    name: 'User 1'
-                },
-                {
-                    name: 'User 2'
-                },
-            ],
-        }
-
-        const wrapper = mount(Builder, {
-            propsData: {
-                properties: props
-            }
-        })
-
-        expect(wrapper.findAllComponents(Text).length).toBe(2)
-        expect(wrapper.findComponent(Text).text()).toBe('User 1')
-    })
-
-
-    it('it updates the state with the items form tha data property', () => {
-        const props = {
-            name: 'users',
-            children: [
-                new CardSchema()
-            ],
-            data: [
-                {
-                    name: 'User 1'
-                },
-                {
-                    name: 'User 2'
-                },
-            ],
-        }
-
-        const $schemaStore = new stateMock();
-
-        const wrapper = mount(Builder, {
-            mocks: {
-                $schemaStore
-            },
-            propsData: {
-                properties: props
-            }
-        })
-
-        const data = wrapper.vm.$schemaStore.get(`${props.name}.items`);
-        expect(data).toBe(props.data);
-    })
-
 })

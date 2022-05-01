@@ -1,3 +1,4 @@
+import JsonRepository from "./JsonRepository";
 import RestRepository from "./RestRepository";
 import StateRepository from "./StateRepository";
 
@@ -7,10 +8,13 @@ class Repository {
             return new RestRepository(options.props)
         }
 
+        if (options.type == 'Json') {
+            return new JsonRepository(options.props)
+        }
+
         if (options.type == 'State') {
             return new StateRepository(options.props, store)
         }
-
         return this;
     }
 

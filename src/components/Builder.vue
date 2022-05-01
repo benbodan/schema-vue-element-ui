@@ -18,6 +18,7 @@ import HasState from "@/mixins/HasState";
 import HasRest from "@/mixins/HasRest";
 import ListenEvents from "@/mixins/ListenEvents";
 import Repository from "@/repositories/Repository";
+import _ from 'lodash';
 export default {
   name: "vBuilder",
   mixins: [HasProperties, HasState, HasRest, ListenEvents],
@@ -41,6 +42,7 @@ export default {
       render: 1,
       repository: null,
       props: {
+        key: '',
         repository: {},
         name: "",
         children: [],
@@ -50,11 +52,6 @@ export default {
   },
   beforeMount() {
     this.applyProperties(this.properties);
-
-    // Builder State Items
-    if (this.props.data.length > 0) {
-      this.setComponentState("items", this.props.data);
-    }
 
     // Init Repository & Fetch Items
     this.initRepository()
@@ -71,20 +68,25 @@ export default {
     queryParams() {
       return this.getComponentState("query");
     },
-    // Runs After Axios Get Request Succeeds
-    afterGet(response) {
-      this.props.data = response;
-      this.setComponentState("items", this.props.data);
-      this.render++
-    },
     get(){
       this.repository.get(this.queryParams());
+    },
+    getItems(response) {
+      if(!this.props.key){
+        return response
+      }
+
+      return _.get(response, this.props.key)
+    },
+    updateState(response) {
+      this.props.data = this.getItems(response);
+      this.setComponentState("items", this.props.data);
     },
     // Initialize Rest|State Repository & Fetch Items
     initRepository(){
       this.repository = new Repository(this.props.repository, this.$schemaStore)
-      this.repository.afterGet(this.afterGet);
-      this.repository.get(this.queryParams());
+      this.repository.afterGet(this.updateState);
+      this.get()
     }
   },
 };
