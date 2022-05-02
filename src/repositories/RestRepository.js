@@ -12,7 +12,60 @@ class RestRepository {
 
         axios.get(url).then(response => {
             this.getCallback(response.data)
-            this.render++
+            this.loading = false
+        })
+    }
+
+    show(queryParams) {
+        this.loading = true
+        let url = this.options.show
+        url += this.generateParams(queryParams)
+        axios.get(url).then(response => {
+            this.getCallback(response.data)
+            this.loading = false
+        })
+    }
+
+    delete(body, queryParams) {
+        this.loading = true
+        let url = this.options.delete
+        url += this.generateParams(queryParams)
+
+        axios.delete(url, body).then(response => {
+            this.getCallback(response.data)
+            this.loading = false
+        })
+    }
+
+    post(body, queryParams) {
+        this.loading = true
+        let url = this.options.create
+        url += this.generateParams(queryParams)
+
+        axios.post(url, body).then(response => {
+            this.getCallback(response.data)
+            this.loading = false
+        })
+    }
+
+    put(body, queryParams) {
+        this.loading = true
+        let url = this.options.update
+        url += this.generateParams(queryParams)
+
+        axios.put(url, body).then(response => {
+            this.getCallback(response.data)
+            this.loading = false
+        })
+    }
+
+    patch(body, queryParams) {
+        this.loading = true
+        let url = this.options.update
+        url += this.generateParams(queryParams)
+
+        axios.patch(url, body).then(response => {
+            this.getCallback(response.data)
             this.loading = false
         })
     }

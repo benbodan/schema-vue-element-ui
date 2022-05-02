@@ -9,6 +9,20 @@ class StateRepository {
         this.getCallback(results)
     }
 
+    show() {
+        this.get()
+    }
+    
+    update(body) {
+        this.options.response = body;
+        this.getCallback(body)
+    }
+
+    delete() {
+        let results = {}
+        this.getCallback(results)
+    }
+
     afterGet(getCallback) {
         this.getCallback = getCallback
     }

@@ -2,11 +2,13 @@ import { mount } from '@vue/test-utils'
 import axios from 'axios'
 import install from '../install'
 import Form from '@/components/Form'
+import Input from '@/components/Input'
 import stateMock from '../Mocks/StateMock'
 import RestRepository from '@/Schema/Repositories/RestRepository'
 import flushPromises from 'flush-promises'
+import InputSchema from '@/Schema/Input'
 
-describe('Form Component', () => {
+describe('Form Component Using Rest', () => {
 
     afterEach(() => {
         jest.clearAllMocks();
@@ -15,8 +17,10 @@ describe('Form Component', () => {
     it('it listens for show events , fetch data and updates the state', async () => {
         // Mock Axios
         const response = {
-            name: 'User Name',
-            email: 'email@example.com'
+            data: {
+                name: 'User Name',
+                email: 'email@example.com'
+            }
         }
 
         jest.spyOn(axios, 'get').mockResolvedValue(response)
@@ -24,22 +28,35 @@ describe('Form Component', () => {
         // Mount Component
         const props = {
             name: 'form',
-            repository: new RestRepository({ show: 'http://example.com/user/1' })
+            repository: new RestRepository({ show: 'http://example.com/user/1' }),
         }
+
+        // Mock State
+        const $schemaStore = new stateMock();
+
+        // Mount Component
         let wrapper = mount(Form, {
+            mocks: {
+                $schemaStore
+            },
             propsData: {
                 properties: props
             }
         })
 
+        await flushPromises();
+
         // Fetch Initial Data
         expect(axios.get).toBeCalledWith('http://example.com/user/1')
         expect(axios.get).toHaveBeenCalledTimes(1)
 
+        // Check State
+        let state = wrapper.vm.$schemaStore.get(`${props.name}.body`)    
+        expect(state).toBe(response.data)
+
+        // Call Second Time
         wrapper.vm.$schemaEvents.$emit('form.show', {})
-
         await wrapper.vm.$nextTick()
-
         expect(axios.get).toHaveBeenCalledTimes(2)
 
         wrapper.destroy()
@@ -174,15 +191,22 @@ describe('Form Component', () => {
 
         // Mock Axios
         const response = {
-            name: 'User Name',
-            email: 'email@example.com'
+            data: {
+                name: 'User Name',
+                email: 'email@example.com'
+            }
         }
         jest.spyOn(axios, 'get').mockResolvedValue(response)
 
         // Mount Component
         const props = {
             name: 'form',
-            repository: new RestRepository({ show: 'http://example.com/user/1' })
+            repository: new RestRepository({ show: 'http://example.com/user/1' }),
+            children: [
+                new InputSchema({
+                    name: 'form.body.name'
+                })
+            ]
         }
         const $schemaStore = new stateMock()
         const wrapper = mount(Form, {
@@ -196,10 +220,11 @@ describe('Form Component', () => {
         expect(axios.get).toHaveBeenCalledTimes(1)
 
         await flushPromises();
+        await wrapper.vm.$nextTick();
 
-        // Updates its' state
-        const body = wrapper.vm.$schemaStore.get('form.body')
+        const input = wrapper.findComponent(Input);
+        expect(wrapper.value).toBe(response.name)
+
         wrapper.destroy()
     })
-
 })

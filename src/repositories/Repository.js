@@ -19,8 +19,13 @@ class Repository {
     }
 
     get() { }
+    show() { }
+    post() { }
+    put() { }
+    patch() { }
+    delete() { }
     // eslint-disable-next-line
-    afterGet(callback) {}
+    afterGet(callback) { }
 }
 
 export default Repository;

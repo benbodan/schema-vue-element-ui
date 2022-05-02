@@ -15,13 +15,12 @@
 <script>
 import HasProperties from "@/mixins/HasProperties";
 import HasState from "@/mixins/HasState";
-import HasRest from "@/mixins/HasRest";
 import ListenEvents from "@/mixins/ListenEvents";
 import Repository from "@/repositories/Repository";
-import _ from 'lodash';
+import _ from "lodash";
 export default {
   name: "vBuilder",
-  mixins: [HasProperties, HasState, HasRest, ListenEvents],
+  mixins: [HasProperties, HasState, ListenEvents],
   props: {
     properties: {
       type: Object,
@@ -40,9 +39,10 @@ export default {
     return {
       items: [],
       render: 1,
+      loading: false,
       repository: null,
       props: {
-        key: '',
+        key: "",
         repository: {},
         name: "",
         children: [],
@@ -54,40 +54,43 @@ export default {
     this.applyProperties(this.properties);
 
     // Init Repository & Fetch Items
-    this.initRepository()
+    this.initRepository();
 
     // Listen For Events
     this.listenOn(`${this.props.name}.get`, this.get);
   },
-  beforeDestroy(){
+  beforeDestroy() {
     // Stop Listening For Events
-    this.stopListenOn(`${this.props.name}.get`)
+    this.stopListenOn(`${this.props.name}.get`);
   },
   methods: {
     // Returns The Query Parameters Used In Get Request
     queryParams() {
       return this.getComponentState("query");
     },
-    get(){
+    get() {
       this.repository.get(this.queryParams());
     },
     getItems(response) {
-      if(!this.props.key){
-        return response
+      if (!this.props.key) {
+        return response;
       }
 
-      return _.get(response, this.props.key)
+      return _.get(response, this.props.key);
     },
     updateState(response) {
       this.props.data = this.getItems(response);
       this.setComponentState("items", this.props.data);
     },
     // Initialize Rest|State Repository & Fetch Items
-    initRepository(){
-      this.repository = new Repository(this.props.repository, this.$schemaStore)
+    initRepository() {
+      this.repository = new Repository(
+        this.props.repository,
+        this.$schemaStore
+      );
       this.repository.afterGet(this.updateState);
-      this.get()
-    }
+      this.get();
+    },
   },
 };
 </script>

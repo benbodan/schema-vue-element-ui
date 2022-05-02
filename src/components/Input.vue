@@ -4,6 +4,7 @@
       {{ props.label }}
     </label>
     <el-input
+      :name="props.name"
       @change="onChange"
       :clearable="props.clearable"
       v-model="value"
