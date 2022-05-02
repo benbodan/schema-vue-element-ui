@@ -120,10 +120,17 @@ describe('Form Component Using State', () => {
         wrapper.destroy()
     })
 
-    it("on delete event it deletes the state", async () => {
+    it("it supports diferent response structures using key property", async () => {
+
+        const user_form = {
+            name: 'User Name',
+            email: 'email@example.com'
+        }
+
         // Component Properties
         const props = {
             name: 'form',
+            key: 'form.entries',
             repository: new StateRepository({
                 name: 'user_form'
             }),
@@ -139,7 +146,11 @@ describe('Form Component Using State', () => {
 
         // Mock State
         const $schemaStore = new stateMock({
-            user_form
+            user_form: {
+                form: {
+                    entries: user_form
+                }
+            }
         });
 
         // Mount Component
@@ -152,20 +163,16 @@ describe('Form Component Using State', () => {
             }
         })
 
-        // Call Delete Event
-        wrapper.vm.$schemaEvents.$emit('form.delete', {})
-        await wrapper.vm.$nextTick()
-
         // Check Repository State
-        const state = wrapper.vm.$schemaStore.get('form')
-        expect(state).toStrictEqual({})
+        const state = wrapper.vm.$schemaStore.get('form.body')
+        expect(state).toBe(user_form)
 
         // Check Children Display Latest Values
         name = wrapper.find('input[name="form.body.name"]')
-        expect(name.element.value).toBe('')
+        expect(name.element.value).toBe(user_form.name)
 
         const email = wrapper.find('input[name="form.body.email"]')
-        expect(email.element.value).toBe('')
+        expect(email.element.value).toBe(user_form.email)
 
         wrapper.destroy()
     })

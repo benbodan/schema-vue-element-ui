@@ -14,11 +14,11 @@
 import HasProperties from "@/mixins/HasProperties";
 import HasState from "@/mixins/HasState";
 import ListenEvents from "@/mixins/ListenEvents";
-import Repository from "@/repositories/Repository";
+import SupportsRepositories from "@/mixins/SupportsRepositories";
 
 export default {
   name: "vForm",
-  mixins: [HasProperties, HasState, ListenEvents],
+  mixins: [HasProperties, HasState, ListenEvents, SupportsRepositories],
   props: {
     properties: {
       type: Object,
@@ -42,6 +42,7 @@ export default {
       props: {
         repository: {},
         name: "",
+        key: null,
         children: [],
         data: [],
       },
@@ -77,46 +78,11 @@ export default {
     },
     // Runs After Axios Get Request Succeeds
     updateState(response) {
-      this.props.data = response;
+      this.props.data = this.getResponse(response, this.props.key);
       this.setComponentState("body", this.props.data);
       this.render++;
     },
-    afterShow(response) {
-      this.updateState(response);
-    },
-    afterUpdate(response) {
-      this.updateState(response);
-    },
-    afterCreate(response) {
-      this.updateState(response);
-    },
-    afterDelete(response) {
-      this.updateState(response);
-    },
-    show() {
-      this.repository.show(this.queryParams());
-    },
-    post() {
-      this.repository.post(this.body(), this.queryParams());
-    },
-    patch() {
-      this.repository.patch(this.body(), this.queryParams());
-    },
-    put() {
-      this.repository.put(this.body(), this.queryParams());
-    },
-    update() {
-      this.repository.update(this.body(), this.queryParams());
-    },
-    delete() {
-      this.repository.delete(this.body(), this.queryParams());
-    },
-    initRepository() {
-      this.repository = new Repository(
-        this.props.repository,
-        this.$schemaStore
-      );
-      this.repository.afterGet(this.updateState);
+    init() {
       this.show();
     },
   },

@@ -16,11 +16,11 @@
 import HasProperties from "@/mixins/HasProperties";
 import HasState from "@/mixins/HasState";
 import ListenEvents from "@/mixins/ListenEvents";
-import Repository from "@/repositories/Repository";
-import _ from "lodash";
+import SupportsRepositories from "@/mixins/SupportsRepositories";
+
 export default {
   name: "vBuilder",
-  mixins: [HasProperties, HasState, ListenEvents],
+  mixins: [HasProperties, HasState, ListenEvents, SupportsRepositories],
   props: {
     properties: {
       type: Object,
@@ -68,27 +68,11 @@ export default {
     queryParams() {
       return this.getComponentState("query");
     },
-    get() {
-      this.repository.get(this.queryParams());
-    },
-    getItems(response) {
-      if (!this.props.key) {
-        return response;
-      }
-
-      return _.get(response, this.props.key);
-    },
     updateState(response) {
-      this.props.data = this.getItems(response);
+      this.props.data = this.getResponse(response, this.props.key);
       this.setComponentState("items", this.props.data);
     },
-    // Initialize Rest|State Repository & Fetch Items
-    initRepository() {
-      this.repository = new Repository(
-        this.props.repository,
-        this.$schemaStore
-      );
-      this.repository.afterGet(this.updateState);
+    init(){
       this.get();
     },
   },
