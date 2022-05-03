@@ -5,6 +5,7 @@ class Form extends Component {
     constructor(props = {
         name: '',
         repository: {},
+        fetch: true,
         data: [],
         children: [],
     }) {
@@ -19,6 +20,7 @@ class Form extends Component {
             props: {
                 name: this.name,
                 data: this.data,
+                fetch: this.fetch,
                 repository: this.repository,
                 children: this.children,
             }

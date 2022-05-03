@@ -43,8 +43,8 @@ export default {
       repository: null,
       props: {
         key: "",
-        repository: {},
         name: "",
+        repository: {},
         children: [],
         data: [],
       },

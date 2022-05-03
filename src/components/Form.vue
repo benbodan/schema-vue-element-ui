@@ -43,6 +43,7 @@ export default {
         repository: {},
         name: "",
         key: null,
+        fetch: true,
         children: [],
         data: [],
       },
@@ -83,7 +84,9 @@ export default {
       this.render++;
     },
     init() {
-      this.show();
+      if (this.props.fetch) {
+        this.show();
+      }
     },
   },
 };

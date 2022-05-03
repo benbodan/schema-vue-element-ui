@@ -5,6 +5,7 @@ import Input from '@/components/Input'
 import stateMock from '../Mocks/StateMock'
 import InputSchema from '@/Schema/Input'
 import JsonRepository from '@/Schema/Repositories/JsonRepository'
+import RestRepository from '@/repositories/RestRepository'
 
 describe('Form Component Using Json', () => {
 
@@ -176,5 +177,37 @@ describe('Form Component Using Json', () => {
         expect(email.element.value).toBe(user_form.email)
 
         wrapper.destroy()
+    })
+
+    it('it repalces variables in properties with data from the scope', () => {
+        const scope = {
+            id: 2,
+            name: 'name'
+        }
+
+        const props = {
+            name: 'form_{id}',
+            repository: new RestRepository({
+                show: 'http://example.com/user/{id}'
+            }),
+            children: [
+                new InputSchema({
+                    name: 'form.body.name'
+                }),
+                new InputSchema({
+                    name: 'form.body.email'
+                }),
+            ]
+        }
+
+        const wrapper = mount(Form, {
+            propsData: {
+                scope: scope,
+                properties: props
+            }
+        })
+
+        expect(wrapper.vm.props.name).toBe('form_2')
+        expect(wrapper.vm.props.repository.options.show).toBe('http://example.com/user/2')
     })
 })

@@ -193,4 +193,24 @@ describe('Input Components', () => {
 
         expect(wrapper.vm.value).toBe('test')
     })
+
+    it('it repalces variables in properties with data from the scope', () => {
+        const scope = {
+            id: 2,
+            name: 'name'
+        }
+
+        const props = {
+            name: 'name_{id}',
+        }
+
+        const wrapper = mount(Input, {
+            propsData: {
+                scope: scope,
+                properties: props
+            }
+        })
+
+        expect(wrapper.vm.props.name).toBe('name_2')
+    })
 })
