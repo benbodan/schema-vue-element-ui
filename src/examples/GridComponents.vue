@@ -12,7 +12,6 @@ import Input from "@/Schema/Input";
 import Builder from "@/Schema/Builder";
 import Button from "@/Schema/Button";
 import Event from "@/Schema/Event";
-import TextSchema from "@/Schema/Text";
 import Form from "@/Schema/Form";
 
 import RestRepository from "@/Schema/Repositories/RestRepository";
@@ -37,65 +36,6 @@ export default {
         new Row({
           gutter: 10,
           columns: [
-            new Column({
-              md: 12,
-              children: [
-                new Card({
-                  header: [
-                    new Button({
-                      label: "Refersh",
-                      on_click: [new Event("user_form.show", "")],
-                    }),
-                    new Button({
-                      label: "Update",
-                      on_click: [new Event("user_form.put")],
-                    }),
-                    new Button({
-                      label: "Create",
-                      on_click: [new Event("user_form.post")],
-                    }),
-                    new Button({
-                      label: "Delete",
-                      on_click: [new Event("user_form.delete")],
-                    }),
-                  ],
-                  children: [
-                    new Form({
-                      name: "user_form",
-                      repository: new RestRepository({
-                        show: "https://62514445e3e5d24b342b12d1.mockapi.io/api/v1/users/1",
-                        update:
-                          "https://62514445e3e5d24b342b12d1.mockapi.io/api/v1/users/1",
-                        create:
-                          "https://62514445e3e5d24b342b12d1.mockapi.io/api/v1/users/",
-                        delete:
-                          "https://62514445e3e5d24b342b12d1.mockapi.io/api/v1/users/1",
-                      }),
-                      children: [
-                        new Input({
-                          label: "User Email",
-                          name: "user_form.body.email",
-                          clearable: true,
-                          placeholder: "Placeholder",
-                          prefixIcon: "el-icon-date",
-                          maxlength: 50,
-                          showWordLimit: true,
-                        }),
-                        new Input({
-                          label: "User Name",
-                          name: "user_form.body.name",
-                          clearable: true,
-                          placeholder: "Placeholder",
-                          prefixIcon: "el-icon-date",
-                          maxlength: 50,
-                          showWordLimit: true,
-                        }),
-                      ],
-                    }),
-                  ],
-                }),
-              ],
-            }),
             new Column({
               md: 12,
               children: [
@@ -125,9 +65,53 @@ export default {
                           md: 12,
                           children: [
                             new Card({
+                              header: [
+                                new Button({
+                                  label: "Refersh",
+                                  on_click: [new Event("user_form_{id}.show", "")],
+                                }),
+                                new Button({
+                                  label: "Update",
+                                  on_click: [new Event("user_form_{id}.put")],
+                                }),
+                                new Button({
+                                  label: "Delete",
+                                  on_click: [new Event("user_form_{id}.delete")],
+                                }),
+                              ],
                               children: [
-                                new TextSchema({
-                                  value: "Name: {name}",
+                                new Form({
+                                  name: "user_form_{id}",
+                                  fetch: false,
+                                  repository: new RestRepository({
+                                    show: "https://62514445e3e5d24b342b12d1.mockapi.io/api/v1/users/{id}",
+                                    update:
+                                      "https://62514445e3e5d24b342b12d1.mockapi.io/api/v1/users/{id}",
+                                    create:
+                                      "https://62514445e3e5d24b342b12d1.mockapi.io/api/v1/users/",
+                                    delete:
+                                      "https://62514445e3e5d24b342b12d1.mockapi.io/api/v1/users/{id}",
+                                  }),
+                                  children: [
+                                    new Input({
+                                      label: "User Email",
+                                      name: "user_form_{id}.body.email",
+                                      clearable: true,
+                                      placeholder: "Placeholder",
+                                      prefixIcon: "el-icon-date",
+                                      maxlength: 50,
+                                      showWordLimit: true,
+                                    }),
+                                    new Input({
+                                      label: "User Name",
+                                      name: "user_form_{id}.body.name",
+                                      clearable: true,
+                                      placeholder: "Placeholder",
+                                      prefixIcon: "el-icon-date",
+                                      maxlength: 50,
+                                      showWordLimit: true,
+                                    }),
+                                  ],
                                 }),
                               ],
                             }),

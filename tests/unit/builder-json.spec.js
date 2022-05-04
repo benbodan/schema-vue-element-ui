@@ -44,7 +44,7 @@ describe('Builder Using JsonRepository', () => {
         })
 
         const data = wrapper.vm.$schemaStore.get(`${props.name}.items`);
-        expect(data).toBe(users);
+        expect(data).toStrictEqual(users);
     })
 
     it('it supports different json response structures', () => {
@@ -91,7 +91,7 @@ describe('Builder Using JsonRepository', () => {
         })
 
         const data = wrapper.vm.$schemaStore.get(`${props.name}.items`);
-        expect(data).toBe(users);
+        expect(data).toStrictEqual(users);
     })
 
     it('it renders children components for each item in json response', () => {

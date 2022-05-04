@@ -12,8 +12,8 @@ class StateRepository {
     show() {
         this.get()
     }
-    
-    update(body) {
+
+    put(body) {
         this.options.response = body;
         this.getCallback(body)
     }

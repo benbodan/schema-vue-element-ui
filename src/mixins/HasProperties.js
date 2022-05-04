@@ -1,16 +1,14 @@
-import Vue from 'vue';
 var _ = require('lodash');
 
 export default {
     methods: {
         applyProperties(properties) {
             Object.keys(properties).forEach(key => {
-                Vue.set(this.props, key, this.replaceVars(properties[key]))
+                _.set(this.props, key, this.replaceVars(properties[key]))
             })
         },
-        replaceVars(text, key = null) {
+        replaceVars(text) {
             const regex = /{[{]?(.*?)[}]?}/;
-
             if (typeof text === 'string') {
                 let match = text.match(regex)
 
@@ -24,19 +22,25 @@ export default {
                     match = text.match(regex)
                 }
             } else if (typeof text === 'object') {
-                this.replaceObject(text)
+                text = this.replaceObject(text)
             }
 
             return text
         },
+        replaceInArray(items){
+            return items.map(item => {
+                return this.replaceVars(item)
+            })
+        },
         replaceObject(props) {
+            let properties = JSON.parse(JSON.stringify(props))
             Object.keys(props).forEach(key => {
                 if (key != 'children') {
-                    Vue.set(props, key, this.replaceVars(props[key]))
+                    _.set(properties, key, this.replaceVars(props[key]))
                 }
             })
 
-            return props;
+            return properties;
         }
     }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div v-loading="loading" :key="render">
+  <div v-loading="loading" :key="render" :name="props.name">
     <component
       :is="component.type"
       v-for="(component, index) in props.children"
@@ -51,6 +51,10 @@ export default {
   },
   beforeMount() {
     this.applyProperties(this.properties);
+    // Update state with scope data
+    if(Object.keys(this.scope).length) {
+      this.updateState(this.scope)
+    }
 
     this.initRepository();
 
